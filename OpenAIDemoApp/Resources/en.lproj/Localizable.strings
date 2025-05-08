@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+
+  Created by Vica Cotoarba on 21.09.2021.
+  
+*/
+
+
+// MARK: - Login
+
+"sign-in" = "Sign in";
+"email-address-placeholder" = "Email address";
+"password-placeholder" = "Password";
