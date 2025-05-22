@@ -16,36 +16,45 @@ struct HomeView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            Text("Home screen")
-                .headerTwo()
-                .padding(.bottom, 20)
+        VStack(spacing: 20) {
+            Text("OpenAI Chat")
+                .font(.largeTitle)
+                .fontWeight(.bold)
             
-            if let error = viewModel.errorMessage {
-                errorMessageView(message: error)
-            } else {
-                List(viewModel.items) { item in
-                    Text("\(item.id) - \(item.content)")
-                }.padding(.bottom, 20)
+            TextEditor(text: $viewModel.prompt)
+                .frame(height: 100)
+                .padding(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                )
+                .padding(.horizontal)
+            
+            Button(action: viewModel.sendRequest) {
+                Text(viewModel.isLoading ? "Loading..." : "Send Request")
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(viewModel.isLoading ? Color.gray : Color.blue)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+            }
+            .disabled(viewModel.isLoading)
+            
+            if !viewModel.response.isEmpty {
+                ScrollView {
+                    Text(viewModel.response)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                }
             }
             
-            Button {
-                viewModel.logout()
-            } label: {
-                Text("Logout")
-            }
-            
-        }.onAppear {
-            viewModel.getDemoItems()
+            Spacer()
         }
-    }
-    
-    func errorMessageView(message: String) -> some View {
-        VStack {
-            Spacer()
-            Text(message)
-            Spacer()
-        }.padding(.horizontal, 20)
+        .padding()
     }
 }
 

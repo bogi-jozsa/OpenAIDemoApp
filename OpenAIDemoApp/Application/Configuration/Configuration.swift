@@ -51,5 +51,9 @@ enum Configuration {
             throw Error.invalidValue
         }
     }
+    
+    static func openAIApiKey() -> String {
+        return "YOUR_SECRET_KEY"
+    }
 
 }
