@@ -10,7 +10,7 @@
 
 // If you're trying to use the full url with https:// , what's after "//" is treated as a comment
 // So we're declaring the URL without the protocol, and we're adding the protocol in code
-BP_API_URL = 5d4c17f600dbb1001487a4ab.mockapi.io/api/
+BP_API_URL = api.openai.com/v1/
 BP_PRIVACY_POLICY_URL = placeholder1
 BP_TERMS_AND_CONDITIONS_URL = placeholder2
 BP_PRODUCT_NAME = Base-STG

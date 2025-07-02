@@ -16,9 +16,12 @@ class MockDependencyContainer: DependencyContainer {
 
     // UseCases
     lazy var getItemsUseCase: GetItemsUseCase = GetItemsUseCase()
+    lazy var requestResponsesUseCase: RequestResponsesUseCase = RequestResponsesUseCase()
+    lazy var getInputItemsUseCase: GetInputItemsUseCase = GetInputItemsUseCase()
 
     // Repositories
     lazy var itemsRepository: ItemsRepository = MockItemsRepositoryImpl()
+    lazy var responsesRepository: ResponsesRepository = MockResponsesRepositoryImpl()
 
     // Helpers
     lazy var authenticationInterceptor: AuthenticationInterceptor<APIAuthenticator> = AuthenticationInterceptor(authenticator: APIAuthenticator())

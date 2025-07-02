@@ -10,7 +10,7 @@ import Foundation
 enum Configuration {
     
     enum Key: String {
-        case apiUrl = "BPApiUrl" // replace BP (BaseProject) initials with your projects'
+        case apiUrl = "BPApiUrl"
         case privacyPolicyUrl = "BPPrivacyPolicyUrl"
         case termsConditionsUrl = "BPTermsConditionsUrl"
         case appName = "CFBundleName"
@@ -53,7 +53,7 @@ enum Configuration {
     }
     
     static func openAIApiKey() -> String {
-        return "YOUR_SECRET_KEY"
+        return "YOUR_APIKEY"
     }
 
 }

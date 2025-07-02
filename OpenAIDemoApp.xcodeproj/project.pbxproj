@@ -56,6 +56,14 @@
 		18DCF14C26FA1D32000D4DD9 /* EmailTextFieldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DCF14B26FA1D32000D4DD9 /* EmailTextFieldModel.swift */; };
 		18DCF15226FA2806000D4DD9 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DCF15126FA2806000D4DD9 /* Buttons.swift */; };
 		18DCF15426FA28C4000D4DD9 /* CustomActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DCF15326FA28C4000D4DD9 /* CustomActivityIndicator.swift */; };
+		5801FE2F2E0A904D0038004D /* InputItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5801FE2E2E0A904D0038004D /* InputItemModel.swift */; };
+		5801FE312E11A2740038004D /* GetInputItemsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5801FE302E11A2740038004D /* GetInputItemsUseCase.swift */; };
+		5801FE332E130D970038004D /* UserDefaultsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5801FE322E130D880038004D /* UserDefaultsExtensions.swift */; };
+		58D137A72E049E6F005BBBD3 /* ResponsesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D137A62E049E6F005BBBD3 /* ResponsesRepository.swift */; };
+		58D137A92E04A128005BBBD3 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D137A82E04A128005BBBD3 /* ResponseModel.swift */; };
+		58D137AB2E04A162005BBBD3 /* RequestResponsesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D137AA2E04A162005BBBD3 /* RequestResponsesUseCase.swift */; };
+		58D137AD2E04A233005BBBD3 /* ResponsesRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D137AC2E04A233005BBBD3 /* ResponsesRepositoryImpl.swift */; };
+		58D137AF2E053023005BBBD3 /* ResponsesRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D137AE2E053023005BBBD3 /* ResponsesRequestDTO.swift */; };
 		7FC992D52A1E3E44006B26AA /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC992D42A1E3E44006B26AA /* ViewFactory.swift */; };
 		838AD3642C7E118200683934 /* APIAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838AD3632C7E118200683934 /* APIAuthenticator.swift */; };
 		838AD36B2C7E183A00683934 /* AuthenticationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838AD36A2C7E183A00683934 /* AuthenticationAPI.swift */; };
@@ -131,6 +139,14 @@
 		18DCF14B26FA1D32000D4DD9 /* EmailTextFieldModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTextFieldModel.swift; sourceTree = "<group>"; };
 		18DCF15126FA2806000D4DD9 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		18DCF15326FA28C4000D4DD9 /* CustomActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicator.swift; sourceTree = "<group>"; };
+		5801FE2E2E0A904D0038004D /* InputItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputItemModel.swift; sourceTree = "<group>"; };
+		5801FE302E11A2740038004D /* GetInputItemsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInputItemsUseCase.swift; sourceTree = "<group>"; };
+		5801FE322E130D880038004D /* UserDefaultsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsExtensions.swift; sourceTree = "<group>"; };
+		58D137A62E049E6F005BBBD3 /* ResponsesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsesRepository.swift; sourceTree = "<group>"; };
+		58D137A82E04A128005BBBD3 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
+		58D137AA2E04A162005BBBD3 /* RequestResponsesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestResponsesUseCase.swift; sourceTree = "<group>"; };
+		58D137AC2E04A233005BBBD3 /* ResponsesRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsesRepositoryImpl.swift; sourceTree = "<group>"; };
+		58D137AE2E053023005BBBD3 /* ResponsesRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsesRequestDTO.swift; sourceTree = "<group>"; };
 		7FC992D42A1E3E44006B26AA /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		838AD3632C7E118200683934 /* APIAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuthenticator.swift; sourceTree = "<group>"; };
 		838AD36A2C7E183A00683934 /* AuthenticationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAPI.swift; sourceTree = "<group>"; };
@@ -315,6 +331,7 @@
 			isa = PBXGroup;
 			children = (
 				02E6106529A3D40A00F5EE16 /* ItemsRepositoryImpl.swift */,
+				58D137AC2E04A233005BBBD3 /* ResponsesRepositoryImpl.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -341,6 +358,8 @@
 			isa = PBXGroup;
 			children = (
 				02E6106729A3D46F00F5EE16 /* GetItemsUseCase.swift */,
+				58D137AA2E04A162005BBBD3 /* RequestResponsesUseCase.swift */,
+				5801FE302E11A2740038004D /* GetInputItemsUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -349,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				02E6106329A3D3EA00F5EE16 /* ItemsRepository.swift */,
+				58D137A62E049E6F005BBBD3 /* ResponsesRepository.swift */,
 			);
 			path = Abstractions;
 			sourceTree = "<group>";
@@ -358,6 +378,8 @@
 			children = (
 				838AD37B2C80595700683934 /* Authentication */,
 				02E6106929A3D4BF00F5EE16 /* DemoItem.swift */,
+				58D137A82E04A128005BBBD3 /* ResponseModel.swift */,
+				5801FE2E2E0A904D0038004D /* InputItemModel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -458,6 +480,7 @@
 		185ACC1226F86390000C9D4B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5801FE322E130D880038004D /* UserDefaultsExtensions.swift */,
 				185ACC1326F863BD000C9D4B /* EncodableExtensions.swift */,
 				185ACC0926F47F53000C9D4B /* DateFormatterExtensions.swift */,
 				184B9F02286DBAAD004868F5 /* ViewExtensions.swift */,
@@ -545,6 +568,7 @@
 			isa = PBXGroup;
 			children = (
 				838AD3802C805FCC00683934 /* Authentication */,
+				58D137AE2E053023005BBBD3 /* ResponsesRequestDTO.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -702,24 +726,29 @@
 				02E6106629A3D40A00F5EE16 /* ItemsRepositoryImpl.swift in Sources */,
 				838AD37F2C805C0E00683934 /* TokenMapper.swift in Sources */,
 				18DCF13626F9F37B000D4DD9 /* CustomTextField.swift in Sources */,
+				58D137AD2E04A233005BBBD3 /* ResponsesRepositoryImpl.swift in Sources */,
 				184B9F05286DBAFC004868F5 /* ArrayExtensions.swift in Sources */,
 				185ACC0A26F47F53000C9D4B /* DateFormatterExtensions.swift in Sources */,
 				18DCF14326F9FB3F000D4DD9 /* Fonts.swift in Sources */,
 				02E6106429A3D3EA00F5EE16 /* ItemsRepository.swift in Sources */,
+				58D137A92E04A128005BBBD3 /* ResponseModel.swift in Sources */,
 				02B32ED729A4AD9200EE298A /* AppDependencyContainer.swift in Sources */,
 				185ACBCD26F47B05000C9D4B /* AppDelegate.swift in Sources */,
 				185ACC1426F863BD000C9D4B /* EncodableExtensions.swift in Sources */,
 				184B9F07286DBB2A004868F5 /* UIWindowExtensions.swift in Sources */,
 				02B32ED529A4AA1F00EE298A /* BaseDIStructs.swift in Sources */,
 				18DCF15426FA28C4000D4DD9 /* CustomActivityIndicator.swift in Sources */,
+				5801FE312E11A2740038004D /* GetInputItemsUseCase.swift in Sources */,
 				02E6105B29A3832900F5EE16 /* LoginViewModel.swift in Sources */,
 				185ACBCF26F47B05000C9D4B /* SceneDelegate.swift in Sources */,
 				02C49B0C29B20D7A00A2B868 /* DependencyContainer.swift in Sources */,
 				0269DE4929B1F05400D77CCC /* MapperProtocol.swift in Sources */,
 				838AD37D2C80596900683934 /* Tokens.swift in Sources */,
+				5801FE2F2E0A904D0038004D /* InputItemModel.swift in Sources */,
 				185ACC0126F47E14000C9D4B /* APIConfiguration.swift in Sources */,
 				185ACBD126F47B05000C9D4B /* LoginView.swift in Sources */,
 				02B32EDB29A4B09F00EE298A /* InjectedValuesExtension.swift in Sources */,
+				58D137A72E049E6F005BBBD3 /* ResponsesRepository.swift in Sources */,
 				185ACC1626F8678F000C9D4B /* Coordinator.swift in Sources */,
 				18DCF15226FA2806000D4DD9 /* Buttons.swift in Sources */,
 				838AD36B2C7E183A00683934 /* AuthenticationAPI.swift in Sources */,
@@ -729,14 +758,17 @@
 				184B9F03286DBAAD004868F5 /* ViewExtensions.swift in Sources */,
 				02E6105929A37AEE00F5EE16 /* HomeViewModel.swift in Sources */,
 				7FC992D52A1E3E44006B26AA /* ViewFactory.swift in Sources */,
+				58D137AF2E053023005BBBD3 /* ResponsesRequestDTO.swift in Sources */,
 				185ACC0F26F4803C000C9D4B /* APIRouter.swift in Sources */,
 				0257551229AFA6330042BB28 /* Configuration.swift in Sources */,
 				023E164829A4B52D00988632 /* MockDependencyContainer.swift in Sources */,
 				18DCF14C26FA1D32000D4DD9 /* EmailTextFieldModel.swift in Sources */,
+				58D137AB2E04A162005BBBD3 /* RequestResponsesUseCase.swift in Sources */,
 				838AD3642C7E118200683934 /* APIAuthenticator.swift in Sources */,
 				022F4E9F29B0E25D007C9304 /* ItemsApi.swift in Sources */,
 				838AD3842C80600D00683934 /* RefreshTokenRequestDTO.swift in Sources */,
 				18DCF13426F9F312000D4DD9 /* TextFieldModel.swift in Sources */,
+				5801FE332E130D970038004D /* UserDefaultsExtensions.swift in Sources */,
 				02E6105429A3750500F5EE16 /* HomeView.swift in Sources */,
 				02E6106829A3D46F00F5EE16 /* GetItemsUseCase.swift in Sources */,
 				185ACC1826F867C6000C9D4B /* AppCoordinator.swift in Sources */,

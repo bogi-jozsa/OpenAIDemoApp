@@ -11,9 +11,12 @@ import Foundation
 protocol DependencyContainer {
     // Use Cases
     var getItemsUseCase: GetItemsUseCase { get set }
+    var requestResponsesUseCase: RequestResponsesUseCase { get set }
+    var getInputItemsUseCase: GetInputItemsUseCase { get set }
     
     // Repositories
     var itemsRepository: ItemsRepository { get set }
+    var responsesRepository: ResponsesRepository { get set }
     
     // APIs
     var apiClient: APIClient { get set }

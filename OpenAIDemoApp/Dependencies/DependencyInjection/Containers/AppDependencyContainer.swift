@@ -11,9 +11,12 @@ import Foundation
 class AppDependencyContainer: DependencyContainer {
     // UseCases
     lazy var getItemsUseCase: GetItemsUseCase = GetItemsUseCase()
+    lazy var requestResponsesUseCase: RequestResponsesUseCase = RequestResponsesUseCase()
+    lazy var getInputItemsUseCase: GetInputItemsUseCase = GetInputItemsUseCase()
 
     // Repositories
     lazy var itemsRepository: ItemsRepository = ItemsRepositoryImpl()
+    lazy var responsesRepository: ResponsesRepository = ResponsesRepositoryImpl()
 
     // APIs
     lazy var apiClient: APIClient = APIClientImpl()

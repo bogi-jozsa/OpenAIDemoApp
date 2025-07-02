@@ -16,6 +16,8 @@ enum APIRouter: APIConfiguration {
     case login(email: String, password: String)
     case refreshAuth(dto: RefreshTokenRequestDTO)
     case getAllItems
+    case requestResponses(dto: ResponsesRequestDTO)
+    case getInputItems(responseId: String)
     
     // MARK: - APIConfiguration
     
@@ -25,9 +27,9 @@ enum APIRouter: APIConfiguration {
     
     var method: HTTPMethod {
         switch self {
-        case .getAllItems:
+        case .getAllItems, .getInputItems:
             return .get
-        case .login:
+        case .login, .requestResponses:
             return .post
         case .refreshAuth:
             return .post
@@ -39,12 +41,14 @@ enum APIRouter: APIConfiguration {
         case .getAllItems: return "items"
         case .login: return "login"
         case .refreshAuth: return "refreshToken"
+        case .requestResponses: return "responses"
+        case .getInputItems(let responseId): return "responses/\(responseId)/input_items"
         }
     }
 
     var needsAuthorization: Bool {
         switch self {
-        case .login, .refreshAuth:
+        case .login, .refreshAuth, .requestResponses, .getInputItems:
             false
         case .getAllItems:
             true
@@ -54,6 +58,7 @@ enum APIRouter: APIConfiguration {
     var headers: [String: String] {
         var headers: [String: String] = [:]
         headers["Content-Type"] = "application/json"
+        headers["Authorization"] = "Bearer \(Configuration.openAIApiKey())"
 
         return headers
     }
@@ -65,7 +70,9 @@ enum APIRouter: APIConfiguration {
         // ex: case .register(let request): return request.params
         case .refreshAuth(let dto):
             dto.params
-        case .getAllItems:
+        case .requestResponses(let dto):
+            dto.params
+        case .getAllItems, .getInputItems:
             nil
         }
     }

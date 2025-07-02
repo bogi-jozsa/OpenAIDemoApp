@@ -38,6 +38,16 @@ extension InjectedValues {
         get { return dependencyContainer.getItemsUseCase }
         set { dependencyContainer.getItemsUseCase = newValue }
     }
+    
+    var requestResponsesUseCase: RequestResponsesUseCase {
+        get { return dependencyContainer.requestResponsesUseCase }
+        set { dependencyContainer.requestResponsesUseCase = newValue }
+    }
+    
+    var getInputItemsUseCase: GetInputItemsUseCase {
+        get { return dependencyContainer.getInputItemsUseCase }
+        set { dependencyContainer.getInputItemsUseCase = newValue }
+    }
 }
 
 // MARK: - Repositories
@@ -47,6 +57,11 @@ extension InjectedValues {
     var itemsRepository: ItemsRepository {
         get { return dependencyContainer.itemsRepository }
         set { dependencyContainer.itemsRepository = newValue }
+    }
+    
+    var responsesRepository: ResponsesRepository {
+        get { return dependencyContainer.responsesRepository }
+        set { dependencyContainer.responsesRepository = newValue }
     }
 }
 
