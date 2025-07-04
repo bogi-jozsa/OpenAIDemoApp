@@ -9,16 +9,45 @@ import Foundation
 
 extension UserDefaults {
     private enum Keys {
-        static let lastResponseId = "lastResponseId"
-        static let lastFirstRequestText = "lastFirstRequestText"
+        static let conversationHistory = "conversationHistory"
+        static let currentConversationId = "currentConversationId"
     }
     
-    @ObjectUserDefault(key: Keys.lastResponseId)
-    static var lastResponseId: String?
+    @ObjectUserDefault(key: Keys.conversationHistory)
+    static var conversationHistory: [Conversation]?
     
-    @ObjectUserDefault(key: Keys.lastFirstRequestText)
-    static var lastFirstRequestText: String?
+    @ObjectUserDefault(key: Keys.currentConversationId)
+    static var currentConversationId: String?
+}
+
+// MARK: - Conversation Models
+
+struct Conversation: Codable, Identifiable {
+    let id: String
+    let title: String
+    let createdAt: Date
+    var messages: [ChatMessage]
     
+    init(id: String = UUID().uuidString, title: String, messages: [ChatMessage] = []) {
+        self.id = id
+        self.title = title
+        self.createdAt = Date()
+        self.messages = messages
+    }
+}
+
+struct ChatMessage: Hashable, Codable, Identifiable {
+    let id: String
+    let requestString: String?
+    let responseString: String?
+    let timestamp: Date
+    
+    init(id: String, requestString: String?, responseString: String?) {
+        self.id = id
+        self.requestString = requestString
+        self.responseString = responseString
+        self.timestamp = Date()
+    }
 }
 
 @propertyWrapper
