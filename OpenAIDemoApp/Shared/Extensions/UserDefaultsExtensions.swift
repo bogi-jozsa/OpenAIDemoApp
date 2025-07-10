@@ -20,33 +20,21 @@ extension UserDefaults {
     static var currentConversationId: String?
 }
 
-// MARK: - Conversation Models
+// MARK: - Simplified Conversation Models
 
 struct Conversation: Codable, Identifiable {
     let id: String
     let title: String
     let createdAt: Date
-    var messages: [ChatMessage]
+    let latestResponseId: String? // Store only the latest response ID
+    let latestResponse: ResponseModel? // Store the latest response for history reconstruction
     
-    init(id: String = UUID().uuidString, title: String, messages: [ChatMessage] = []) {
+    init(id: String = UUID().uuidString, title: String, latestResponseId: String? = nil, latestResponse: ResponseModel? = nil) {
         self.id = id
         self.title = title
         self.createdAt = Date()
-        self.messages = messages
-    }
-}
-
-struct ChatMessage: Hashable, Codable, Identifiable {
-    let id: String
-    let requestString: String?
-    let responseString: String?
-    let timestamp: Date
-    
-    init(id: String, requestString: String?, responseString: String?) {
-        self.id = id
-        self.requestString = requestString
-        self.responseString = responseString
-        self.timestamp = Date()
+        self.latestResponseId = latestResponseId
+        self.latestResponse = latestResponse
     }
 }
 

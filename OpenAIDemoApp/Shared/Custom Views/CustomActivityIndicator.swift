@@ -29,3 +29,28 @@ struct CustomActivityIndicator: UIViewRepresentable {
     func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {}
     
 }
+
+
+struct DotLoadingView: View {
+    @State private var animate = false
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(0..<3) { index in
+                Circle()
+                    .foregroundStyle(Color.gray)
+                    .frame(width: 10, height: 10)
+                    .scaleEffect(animate ? 1 : 0.5)
+                    .animation(
+                        .easeInOut(duration: 0.6)
+                            .repeatForever()
+                            .delay(Double(index) * 0.2),
+                        value: animate
+                    )
+            }
+        }
+        .onAppear {
+            animate = true
+        }
+    }
+}

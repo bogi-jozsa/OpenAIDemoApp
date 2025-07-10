@@ -80,20 +80,49 @@ struct HomeView: View {
     // MARK: - Chat Content View
     
     private var chatContentView: some View {
-        ScrollViewReader { scrollProxy in
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    ForEach(viewModel.chatMessages) { message in
-                        ChatMessageView(message: message)
-                            .id(message.id)
-                    }
+        ZStack {
+            if viewModel.isLoadingHistory {
+                VStack {
+                    CustomActivityIndicator(tintColor: .gray, style: .medium)
+                    Text("Loading conversation...")
+                        .foregroundColor(.gray)
+                        .font(.caption)
                 }
-                .padding(.horizontal, 8)
-            }
-            .onChange(of: viewModel.chatMessages.count) { _ in
-                if let lastMessage = viewModel.chatMessages.last {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        scrollProxy.scrollTo(lastMessage.id, anchor: .bottom)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollViewReader { scrollProxy in
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 16) {
+                            ForEach(viewModel.chatMessages) { message in
+                                ChatMessageView(message: message)
+                                    .id(message.id)
+                            }
+                            
+                            if viewModel.isLoading {
+                                DotLoadingView()
+                                    .padding(12)
+                                    .id("loading-indicator")
+                            }
+                            
+                        }
+                        .padding(.horizontal, 8)
+                    }
+                    .onChange(of: viewModel.chatMessages.count) { _ in
+                        if let lastMessage = viewModel.chatMessages.last {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                scrollProxy.scrollTo(lastMessage.id, anchor: .bottom)
+                            }
+                        }
+                    }
+                    .onChange(of: viewModel.isLoading) { isLoading in
+                        if isLoading {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                scrollProxy.scrollTo("loading-indicator", anchor: .bottom)
+                            }
+                        }
+                    }
+                    .refreshable {
+                        viewModel.refreshCurrentConversation()
                     }
                 }
             }
@@ -148,22 +177,20 @@ struct ChatMessageView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // User message
-            if let request = message.requestString, !request.isEmpty {
+            if message.role == "user" {
+                // User message
                 HStack {
                     Spacer()
-                    Text(request)
+                    Text(message.content)
                         .padding(12)
                         .background(Color.blue.opacity(0.1))
                         .cornerRadius(12)
                         .frame(maxWidth: .infinity * 0.8, alignment: .trailing)
                 }
-            }
-            
-            // AI response
-            if let response = message.responseString, !response.isEmpty {
+            } else {
+                // AI response
                 HStack {
-                    Text(response)
+                    Text(message.content)
                         .padding(12)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(12)
@@ -239,10 +266,6 @@ struct ConversationRowView: View {
                     .font(.headline)
                     .foregroundColor(.primary)
                     .lineLimit(2)
-                
-                Text("\(conversation.messages.count) messages")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
                 
                 Text(conversation.createdAt.formatted(date: .abbreviated, time: .shortened))
                     .font(.caption2)

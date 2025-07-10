@@ -7,6 +7,28 @@
 
 import Foundation
 
+struct ChatMessage: Hashable, Codable, Identifiable {
+    let id: String
+    let role: String // "user" or "assistant"
+    let content: String
+    let timestamp: Date
+    
+    init(id: String, role: String, content: String) {
+        self.id = id
+        self.role = role
+        self.content = content
+        self.timestamp = Date()
+    }
+    
+    var requestString: String? {
+        return role == "user" ? content : nil
+    }
+    
+    var responseString: String? {
+        return role == "assistant" ? content : nil
+    }
+}
+
 protocol HomeDelegate: AnyObject {
     func logout()
 }
@@ -24,6 +46,7 @@ final class HomeViewModel: ObservableObject {
     @Published var chatMessages: [ChatMessage] = []
     @Published var conversations: [Conversation] = []
     @Published var currentConversation: Conversation?
+    @Published var isLoadingHistory = false
     
     @Injected(\.requestResponsesUseCase) private var requestResponsesUseCase: RequestResponsesUseCase
     @Injected(\.getInputItemsUseCase) private var getInputItemsUseCase: GetInputItemsUseCase
@@ -44,10 +67,39 @@ final class HomeViewModel: ObservableObject {
     }
     
     func switchToConversation(_ conversation: Conversation) {
+        Task {
+            await loadConversationHistory(conversation)
+        }
+    }
+    
+    @MainActor
+    private func loadConversationHistory(_ conversation: Conversation) async {
+        isLoadingHistory = true
+        
+        // Switch to conversation
         if let switchedConversation = conversationManager.switchToConversation(id: conversation.id) {
             currentConversation = switchedConversation
-            chatMessages = switchedConversation.messages
+            
+            // Load history if conversation has a response ID
+            if let responseId = switchedConversation.latestResponseId {
+                do {
+                    let inputItems = try await getInputItemsUseCase.execute(responseId: responseId)
+                    // Pass the stored latest response to include it in the conversation
+                    let messages = conversationManager.convertToMessages(
+                        from: inputItems,
+                        latestResponse: switchedConversation.latestResponse
+                    )
+                    chatMessages = messages
+                } catch {
+                    errorMessage = "Failed to load conversation history: \(error.localizedDescription)"
+                    chatMessages = []
+                }
+            } else {
+                chatMessages = []
+            }
         }
+        
+        isLoadingHistory = false
     }
     
     func loadConversations() {
@@ -56,8 +108,9 @@ final class HomeViewModel: ObservableObject {
     
     private func loadCurrentConversation() {
         if let current = conversationManager.getCurrentConversation() {
-            currentConversation = current
-            chatMessages = current.messages
+            Task {
+                await loadConversationHistory(current)
+            }
         } else {
             // Create first conversation if none exists
             createNewConversation()
@@ -74,57 +127,50 @@ final class HomeViewModel: ObservableObject {
         let currentPrompt = prompt
         prompt = ""
         
+        // Add user message immediately for better UX
+        let userMessage = ChatMessage(id: UUID().uuidString, role: "user", content: currentPrompt)
+        chatMessages.append(userMessage)
+        
         do {
-            // Get the last response ID from current conversation for context
-            let previousResponseId: String? = chatMessages.last?.id
-            let responseModel = try await requestResponsesUseCase.execute(input: currentPrompt, previousResponseId: previousResponseId)
+            // Get the latest response ID from current conversation for context
+            let previousResponseId: String? = currentConversation?.latestResponseId
+            
+            let responseModel = try await requestResponsesUseCase.execute(responsesRequestModel: ResponsesRequestModel(text: currentPrompt,
+                                                                                                                       image_url: nil,
+                                                                                                                       previousResponseId: previousResponseId))
+            
+            // "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
             
             await MainActor.run {
                 self.isLoading = false
                 
-                // Create new message
-                let newMessage = ChatMessage(
-                    id: responseModel.id,
-                    requestString: currentPrompt,
-                    responseString: responseModel.output.first?.content.first?.text ?? ""
-                )
+                // Extract response text
+                let responseText = responseModel.output.first?.content.first?.text ?? ""
                 
-                // Add to current conversation
-                self.chatMessages.append(newMessage)
-                self.conversationManager.addMessageToCurrentConversation(newMessage)
+                // Add AI response message
+                let aiMessage = ChatMessage(id: responseModel.id, role: "assistant", content: responseText)
+                self.chatMessages.append(aiMessage)
+                
+                // Update conversation with latest response ID and full response
+                self.conversationManager.updateCurrentConversationWithResponse(
+                    responseModel: responseModel,
+                    title: self.chatMessages.count <= 2 ? String(currentPrompt.prefix(30)) : nil
+                )
                 
                 // Update current conversation reference
                 self.currentConversation = self.conversationManager.getCurrentConversation()
-                
-                // Update conversation title if it's the first message
-                if self.chatMessages.count == 1 {
-                    self.updateConversationTitle(with: currentPrompt)
-                }
+                self.loadConversations()
             }
         } catch let error {
             await MainActor.run {
                 self.isLoading = false
                 self.prompt = currentPrompt // Restore prompt on error
+                // Remove the user message that was added optimistically
+                if let lastMessage = self.chatMessages.last, lastMessage.role == "user" {
+                    self.chatMessages.removeLast()
+                }
                 self.errorMessage = "Error creating request: \(error.localizedDescription)"
             }
-        }
-    }
-    
-    private func updateConversationTitle(with firstMessage: String) {
-        guard let currentId = currentConversation?.id,
-              var history = UserDefaults.conversationHistory else { return }
-        
-        if let index = history.firstIndex(where: { $0.id == currentId }) {
-            // Use first 30 characters of the first message as title
-            let title = String(firstMessage.prefix(30))
-            history[index] = Conversation(
-                id: history[index].id,
-                title: title,
-                messages: history[index].messages
-            )
-            UserDefaults.conversationHistory = history
-            currentConversation = history[index]
-            loadConversations()
         }
     }
     
@@ -142,5 +188,12 @@ final class HomeViewModel: ObservableObject {
         conversationManager.clearAllConversations()
         createNewConversation()
         loadConversations()
+    }
+    
+    func refreshCurrentConversation() {
+        guard let current = currentConversation else { return }
+        Task {
+            await loadConversationHistory(current)
+        }
     }
 }

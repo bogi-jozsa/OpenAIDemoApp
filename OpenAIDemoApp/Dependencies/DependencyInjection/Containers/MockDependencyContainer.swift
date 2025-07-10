@@ -25,6 +25,7 @@ class MockDependencyContainer: DependencyContainer {
 
     // Helpers
     lazy var authenticationInterceptor: AuthenticationInterceptor<APIAuthenticator> = AuthenticationInterceptor(authenticator: APIAuthenticator())
+    lazy var developerMenu: DeveloperMenu = DeveloperMenu()
 
     init() {
         DependencyContainerKey.currentValue = self

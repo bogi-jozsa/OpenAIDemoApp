@@ -25,6 +25,7 @@ protocol DependencyContainer {
     
     // Helpers
     var authenticationInterceptor: AuthenticationInterceptor<APIAuthenticator> { get set }
+    var developerMenu: DeveloperMenu { get set }
 }
 
 struct DependencyContainerKey: InjectionKey {

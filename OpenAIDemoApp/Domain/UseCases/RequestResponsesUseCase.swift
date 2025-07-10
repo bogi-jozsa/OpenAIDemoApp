@@ -11,7 +11,7 @@ struct RequestResponsesUseCase {
     
     @Injected(\.responsesRepository) private var repository: ResponsesRepository
     
-    func execute(input: String, previousResponseId: String?) async throws -> ResponseModel {
-        return try await repository.requestResponses(input: input, previousResponseId: previousResponseId)
+    func execute(responsesRequestModel: ResponsesRequestModel) async throws -> ResponseModel {
+        return try await repository.requestResponses(responsesRequestModel: responsesRequestModel)
     }
 }

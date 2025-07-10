@@ -94,3 +94,11 @@ extension InjectedValues {
         set { dependencyContainer.authenticationInterceptor = newValue }
     }
 }
+
+extension InjectedValues {
+
+    var developerMenu: DeveloperMenu {
+        get { return dependencyContainer.developerMenu }
+        set { dependencyContainer.developerMenu = newValue }
+    }
+}
