@@ -138,7 +138,7 @@ final class HomeViewModel: ObservableObject {
             let responseModel = try await requestResponsesUseCase.execute(responsesRequestModel: ResponsesRequestModel(text: currentPrompt,
                                                                                                                        image_url: nil,
                                                                                                                        previousResponseId: previousResponseId))
-            
+            // Try with image input
             // "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
             
             await MainActor.run {
@@ -165,7 +165,7 @@ final class HomeViewModel: ObservableObject {
             await MainActor.run {
                 self.isLoading = false
                 self.prompt = currentPrompt // Restore prompt on error
-                // Remove the user message that was added optimistically
+                // Remove the user message that was added
                 if let lastMessage = self.chatMessages.last, lastMessage.role == "user" {
                     self.chatMessages.removeLast()
                 }

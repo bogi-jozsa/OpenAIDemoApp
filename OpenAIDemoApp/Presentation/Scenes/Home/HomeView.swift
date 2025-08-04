@@ -190,11 +190,14 @@ struct ChatMessageView: View {
             } else {
                 // AI response
                 HStack {
-                    Text(message.content)
-                        .padding(12)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(12)
-                        .frame(maxWidth: .infinity * 0.8, alignment: .leading)
+                    if let attributed = try? AttributedString(markdown: message.content) {
+                        Text(attributed)
+                            .padding(12)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(12)
+                            .frame(maxWidth: .infinity * 0.8, alignment: .leading)
+                    }
+                    
                     Spacer()
                 }
             }
