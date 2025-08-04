@@ -18,6 +18,7 @@ class MockDependencyContainer: DependencyContainer {
     lazy var getItemsUseCase: GetItemsUseCase = GetItemsUseCase()
     lazy var requestResponsesUseCase: RequestResponsesUseCase = RequestResponsesUseCase()
     lazy var getInputItemsUseCase: GetInputItemsUseCase = GetInputItemsUseCase()
+    lazy var deleteResponseUseCase: DeleteResponseUseCase = DeleteResponseUseCase()
 
     // Repositories
     lazy var itemsRepository: ItemsRepository = MockItemsRepositoryImpl()

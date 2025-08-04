@@ -13,6 +13,7 @@ protocol DependencyContainer {
     var getItemsUseCase: GetItemsUseCase { get set }
     var requestResponsesUseCase: RequestResponsesUseCase { get set }
     var getInputItemsUseCase: GetInputItemsUseCase { get set }
+    var deleteResponseUseCase: DeleteResponseUseCase { get set }
     
     // Repositories
     var itemsRepository: ItemsRepository { get set }

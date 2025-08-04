@@ -34,6 +34,10 @@ final class ResponsesRepositoryImpl: ResponsesRepository {
         try await apiClient.performRequest(route: APIRouter.getInputItems(responseId: responseId))
     }
     
+    func deleteResponse(responseId: String) async throws -> DeleteMessageResponse {
+        try await apiClient.performRequest(route: APIRouter.deleteResponse(responseId: responseId))
+    }
+    
 }
 
 // MARK: - Mock for previews
@@ -45,5 +49,9 @@ final class MockResponsesRepositoryImpl: ResponsesRepository {
     
     func getInputItems(responseId: String) async throws -> InputItemModel {
         return InputItemModel(object: "", data: [], firstId: "", lastId: "", hasMore: false)
+    }
+    
+    func deleteResponse(responseId: String) async throws -> DeleteMessageResponse {
+        return DeleteMessageResponse(id: "", object: "", deleted: false)
     }
 }

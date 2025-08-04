@@ -48,6 +48,11 @@ extension InjectedValues {
         get { return dependencyContainer.getInputItemsUseCase }
         set { dependencyContainer.getInputItemsUseCase = newValue }
     }
+    
+    var deleteResponseUseCase: DeleteResponseUseCase {
+        get { return dependencyContainer.deleteResponseUseCase }
+        set { dependencyContainer.deleteResponseUseCase = newValue }
+    }
 }
 
 // MARK: - Repositories

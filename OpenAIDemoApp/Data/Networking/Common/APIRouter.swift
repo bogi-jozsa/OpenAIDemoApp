@@ -18,6 +18,7 @@ enum APIRouter: APIConfiguration {
     case getAllItems
     case requestResponses(dto: ResponsesRequestDTO)
     case getInputItems(responseId: String)
+    case deleteResponse(responseId: String)
     
     // MARK: - APIConfiguration
     
@@ -29,7 +30,7 @@ enum APIRouter: APIConfiguration {
         switch self {
         case .getAllItems, .getInputItems:
             return .get
-        case .login, .requestResponses:
+        case .login, .requestResponses, .deleteResponse:
             return .post
         case .refreshAuth:
             return .post
@@ -43,12 +44,13 @@ enum APIRouter: APIConfiguration {
         case .refreshAuth: return "refreshToken"
         case .requestResponses: return "responses"
         case .getInputItems(let responseId): return "responses/\(responseId)/input_items"
+        case .deleteResponse(let responseId): return "responses/\(responseId)"
         }
     }
 
     var needsAuthorization: Bool {
         switch self {
-        case .login, .refreshAuth, .requestResponses, .getInputItems:
+        case .login, .refreshAuth, .requestResponses, .getInputItems, .deleteResponse:
             false
         case .getAllItems:
             true
@@ -67,12 +69,11 @@ enum APIRouter: APIConfiguration {
         switch self {
         case .login(let email, let password):
             LoginRequest(email: email, password: password).params
-        // ex: case .register(let request): return request.params
         case .refreshAuth(let dto):
             dto.params
         case .requestResponses(let dto):
             dto.params
-        case .getAllItems, .getInputItems:
+        case .getAllItems, .getInputItems, .deleteResponse:
             nil
         }
     }
