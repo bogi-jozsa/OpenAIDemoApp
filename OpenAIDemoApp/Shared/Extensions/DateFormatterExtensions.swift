@@ -30,6 +30,13 @@ extension DateFormatter {
         return formatter
     }
     
+    static var dateAndTime: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ro")
+        formatter.dateFormat = "d MMM yyyy, HH:mm"
+        return formatter
+    }
+    
     /// Use this to remove the dot from the short date formatting
     static func getDayMonthYearString(from date: Date) -> String {
         return dayMonthYearShort.string(from: date).replacingOccurrences(of: ".", with: "")

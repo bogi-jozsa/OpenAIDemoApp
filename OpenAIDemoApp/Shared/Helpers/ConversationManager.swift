@@ -13,7 +13,7 @@ class ConversationManager {
     // MARK: - Conversation Management
     
     func createNewConversation(title: String? = nil) -> Conversation {
-        let conversationTitle = title ?? "New Chat \(Date().formatted(date: .abbreviated, time: .shortened))"
+        let conversationTitle = title ?? "New Chat \(DateFormatter.dateAndTime.string(from: Date()))"
         let newConversation = Conversation(title: conversationTitle)
         
         // Save as current conversation

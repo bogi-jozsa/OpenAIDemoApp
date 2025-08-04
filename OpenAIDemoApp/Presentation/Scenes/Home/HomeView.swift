@@ -198,12 +198,6 @@ struct ChatMessageView: View {
                     Spacer()
                 }
             }
-            
-            // Timestamp
-            Text(message.timestamp.formatted(date: .omitted, time: .shortened))
-                .font(.caption2)
-                .foregroundColor(.gray)
-                .frame(maxWidth: .infinity, alignment: .trailing)
         }
     }
 }
@@ -267,7 +261,7 @@ struct ConversationRowView: View {
                     .foregroundColor(.primary)
                     .lineLimit(2)
                 
-                Text(conversation.createdAt.formatted(date: .abbreviated, time: .shortened))
+                Text(DateFormatter.dateAndTime.string(from: conversation.createdAt))
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
